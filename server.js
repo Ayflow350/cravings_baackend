@@ -39,7 +39,7 @@ mongoose
     app.use(express.json());
     app.use(cors({
       credentials: true,
-      origin: ['http://localhost:3001', "https://cravings-flax.vercel.app/"],
+      origin: ['http://localhost:3000', "https://cravings-flax.vercel.app/"],
       methods: "GET,POST,PUT,DELETE",
     }));
 
