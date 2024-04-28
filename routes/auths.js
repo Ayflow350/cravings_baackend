@@ -55,7 +55,7 @@ router.post(
       password: hashedPassword,
       name,
       phoneNumber,
-      // stripeCustomerId: customer.id,
+    
     });
 
     const token = await JWT.sign(
