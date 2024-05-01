@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 const axios = require('axios');
 const mongoose = require('mongoose');
+const uuid = require("uuid");
+// Generate a unique order ID
 
 require('../model/OrderModel'); // Ensure the Order model is registered
 const API_KEY = 'sk_test_48dd050600ed47e32459d1e2fcac5f037403c728'; // Ensure this API key is not exposed in production
@@ -9,6 +11,7 @@ const API_KEY = 'sk_test_48dd050600ed47e32459d1e2fcac5f037403c728'; // Ensure th
 // Post endpoint to create a new order
 router.post('/create', async (req, res, next) => {
   const { email, reference, metadata } = req.body; 
+  const orderId = "#" + uuid.v4().substring(0, 7);
   if (!email || !reference || !metadata) {
     return res.status(400).json({ message: 'Please provide all the required fields.' });
   }
@@ -28,6 +31,7 @@ router.post('/create', async (req, res, next) => {
     const Order = mongoose.model('order');
     const order = new Order({
       email,
+      orderId, 
       reference: reference.reference,
       userId: metadata.userId,
       products: metadata.products,

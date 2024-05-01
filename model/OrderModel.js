@@ -11,6 +11,11 @@ email: {
   type: String,
   required: true
 },
+
+orderId : {
+  type: String,
+  required: true
+},
    
     reference: {
         type: String,
