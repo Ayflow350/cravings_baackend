@@ -61,6 +61,38 @@ router.post('/create', async (req, res, next) => {
 module.exports = router;
 
 
+
+
+
+router.get('/orders/user/:userId', async (req, res) => {
+  const { userId } = req.params; // Extract userId from request parameters
+  const Order = mongoose.model('order');
+
+  try {
+    // Check if userId is a valid MongoDB ObjectId
+    if (!mongoose.Types.ObjectId.isValid(userId)) {
+      return res.status(400).json({ status: false, message: 'Invalid User ID format' });
+    }
+
+    // Fetch orders by userId
+    const orders = await Order.find({ userId }).sort({ createdAt: -1 }); // Fetch and sort by most recent
+
+    if (orders.length === 0) {
+      // No orders found for the given userId
+      return res.status(404).json({ status: false, message: 'No orders found for this User ID' });
+    }
+
+    
+    return res.json({ status: true, orders });
+  } catch (error) {
+    console.error('Error fetching orders by User ID:', error);
+    return res.status(500).json({ status: false, message: 'Error fetching orders.', error: error.message });
+  }
+});
+
+module.exports = router; 
+
+
 router.get('/fetch', async (req, res, next) => {
   try {
     const Order = mongoose.model('order'); // Reference to the Order model
